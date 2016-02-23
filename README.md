@@ -11,18 +11,17 @@ ChannelStream
 
 You can send inside the closure and receive outside the closure.
 
-```
+```swift
 let channelStream = ChannelStream { stream in
     try stream.send("hello")
 }
 
 let hello = try channelStream.receive()
-
 ```
 
 Or you can send outside the closure and receive inside the closure.
 
-```
+```swift
 let channelStream = ChannelStream { stream in
     let hello = try stream.receive()
 }
@@ -32,7 +31,7 @@ try channelStream.send("hello")
 
 Or you can do both at the same time.
 
-```
+```swift
 let channelStream = ChannelStream { stream in
     let hello = try stream.receive()
     try stream.send("goodbye")
@@ -44,24 +43,23 @@ let goodbye = try channelStream.receive()
 
 A good usage example of `ChannelStream` is generating an HTTP response body dynamically.
 
-```
+```swift
 import HTTPServer
 import ChannelStream
 
 try Server { _ in
-	let stream = ChannelStream { stream in
-		for i in 0 ..< 100 {
-    		try stream.send("\(i)")
+    let stream = ChannelStream { stream in
+        for i in 0 ..< 100 {
+            try stream.send("\(i)")
     	}
     }
-    return Response(stream: stream)
+    return Response(body: stream)
 }.start()
 ```
 
-
 ## Installation
 
-```
+```swift
 import PackageDescription
 
 let package = Package(
