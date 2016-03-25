@@ -23,9 +23,9 @@
 // SOFTWARE.
 
 @_exported import Venice
-@_exported import Stream
+@_exported import Data
 
-public final class ChannelStream: StreamType {
+public final class ChannelStream: Stream {
     public let metadata: [String: Any] = [:]
     private let channel = FallibleChannel<Data>()
 
@@ -34,6 +34,9 @@ public final class ChannelStream: StreamType {
     }
 
     public func receive() throws -> Data {
+        if closed {
+            throw StreamError.closedStream(data: Data([]))
+        }
         return try channel.receive()!
     }
 
@@ -47,7 +50,7 @@ public final class ChannelStream: StreamType {
         return channel.close()
     }
 
-    public init(stream: StreamType throws -> Void) {
+    public init(stream: Stream throws -> Void) {
         co {
             do {
                 try stream(self)
