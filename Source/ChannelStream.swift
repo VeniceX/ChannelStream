@@ -23,7 +23,6 @@
 // SOFTWARE.
 
 @_exported import Venice
-@_exported import Data
 
 public final class ChannelStream: Stream {
     public let metadata: [String: Any] = [:]
@@ -33,18 +32,18 @@ public final class ChannelStream: Stream {
         return channel.closed
     }
 
-    public func receive() throws -> Data {
+    public func receive(upTo byteCount: Int, timingOut deadline: Double = .never) throws -> Data {
         if closed {
             throw StreamError.closedStream(data: Data([]))
         }
         return try channel.receive()!
     }
 
-    public func send(data: Data) throws {
+    public func send(data: Data, timingOut deadline: Double = .never) throws {
         channel.send(data)
     }
 
-    public func flush() throws {}
+    public func flush(timingOut deadline: Double = .never) throws {}
 
     public func close() -> Bool {
         return channel.close()
@@ -56,7 +55,7 @@ public final class ChannelStream: Stream {
                 try stream(self)
                 self.close()
             } catch {
-                self.channel.sendError(error)
+                self.channel.send(error)
             }
         }
     }
