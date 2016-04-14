@@ -39,7 +39,7 @@ public final class ChannelStream: Stream {
         return try channel.receive()!
     }
 
-    public func send(data: Data, timingOut deadline: Double = .never) throws {
+    public func send(_ data: Data, timingOut deadline: Double = .never) throws {
         channel.send(data)
     }
 
