@@ -45,15 +45,15 @@ public final class ChannelStream: Stream {
 
     public func flush(timingOut deadline: Double = .never) throws {}
 
-    public func close() -> Bool {
-        return channel.close()
+    public func close() throws {
+        try channel.close()
     }
 
     public init(stream: Stream throws -> Void) {
         co {
             do {
                 try stream(self)
-                self.close()
+                try self.close()
             } catch {
                 self.channel.send(error)
             }
