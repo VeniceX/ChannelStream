@@ -46,7 +46,7 @@ public final class ChannelStream: Stream {
     public func flush(timingOut deadline: Double = .never) throws {}
 
     public func close() throws {
-        try channel.close()
+        channel.close()
     }
 
     public init(stream: Stream throws -> Void) {
