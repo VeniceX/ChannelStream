@@ -34,7 +34,7 @@ public final class ChannelStream: Stream {
 
     public func receive(upTo byteCount: Int, timingOut deadline: Double = .never) throws -> Data {
         if closed {
-            throw StreamError.closedStream(data: Data([]))
+            throw StreamError.closedStream
         }
         return try channel.receive()!
     }
