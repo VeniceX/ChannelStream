@@ -39,21 +39,21 @@ public final class ChannelStream: Stream {
         return try channel.receive()!
     }
 
-    public func send(data: Data, timingOut deadline: Double = .never) throws {
+    public func send(_ data: Data, timingOut deadline: Double = .never) throws {
         channel.send(data)
     }
 
     public func flush(timingOut deadline: Double = .never) throws {}
 
-    public func close() -> Bool {
-        return channel.close()
+    public func close() throws {
+        channel.close()
     }
 
     public init(stream: Stream throws -> Void) {
         co {
             do {
                 try stream(self)
-                self.close()
+                try self.close()
             } catch {
                 self.channel.send(error)
             }
