@@ -49,7 +49,7 @@ public final class ChannelStream: Stream {
         channel.close()
     }
 
-    public init(stream: Stream throws -> Void) {
+    public init(stream: (Stream) throws -> Void) {
         co {
             do {
                 try stream(self)
