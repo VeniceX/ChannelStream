@@ -8,7 +8,7 @@ class ChannelStreamTests: XCTestCase {
 }
 
 extension ChannelStreamTests {
-    static var allTests : [(String, ChannelStreamTests -> () throws -> Void)] {
+    static var allTests : [(String, (ChannelStreamTests) -> () throws -> Void)] {
         return [
            ("testReality", testReality),
         ]
